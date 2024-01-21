@@ -4,9 +4,24 @@ public class PauseManager : IPausable
 {
     private List<IPausable> _pausables = new List<IPausable>();
 
+    public PauseManager()
+    {
+        
+    }
+
     public PauseManager(List<IPausable> pausables)
     {
-        _pausables = pausables;
+        _pausables.AddRange(pausables);
+    }
+
+    public void Add(IPausable pausable)
+    {
+        _pausables.Add(pausable);
+    }
+
+    public void Remove(IPausable pausable)
+    {
+        _pausables.Remove(pausable);
     }
 
     public void Pause()

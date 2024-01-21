@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class VFXPlayer : IPausable
 {
+    // ExplosionFactory<Explosion>
+    // Pool<Explosion>
+
     public VFXPlayer()
     {
     }
 
-    public IEnumerator Animate(Entity entity, string property, bool value)
+    public void Play(IVFX VFX)
     {
-        entity.Animator.SetBool(property, value);
-
-        yield return new WaitUntil(() => entity.IsAnimationEnded == true);
-        Debug.Log("Animation is ended");
+        VFX.Play();
     }
 
 

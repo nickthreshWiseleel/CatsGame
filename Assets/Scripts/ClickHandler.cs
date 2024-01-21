@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class ClickHandler : MonoBehaviour
 {
-    public event Action<IHitable> Hitted;
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -19,7 +17,7 @@ public class ClickHandler : MonoBehaviour
 
         if (hit.transform != null && hit.transform.TryGetComponent(out IHitable hitable))
         {
-            Hitted?.Invoke(hitable);
+            hitable.Hit();
         }
     }
 }

@@ -1,33 +1,29 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using TMPro;
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Lifetime : MonoBehaviour, IPausable
 {
     [Range(0f, 1f), SerializeField] private float _speed = 1f;
-    [SerializeField] private DataConfig _dataConfig;
-    [SerializeField] private Entity _cat;
-    [SerializeField] private EntryPoint _entryPoint;
-    [SerializeField] private EntityConfig _entityConfig;
-    [SerializeField] private AnimationConfig _animationConfig;
+    [SerializeField] private GameConfig _gameConfig;
+    [SerializeField] private Entity _entity;
+    [SerializeField] private Explosion _explosion;
     [SerializeField] private RectTransform _spawnArea;
     [SerializeField] private float _timeSinceSpawn;
     [SerializeField] private float _scale;
     [SerializeField] private float _lifeDelay;
-    [SerializeField] private float _animationDelay;
     private float _time;
     private Session _session;
-    private EntityFactory _factory;
-    private Pool<Entity> _pool;
+    private Factory<Entity> _entityFactory;
+    private Pool<Entity> _entityPool;
     private bool _isPaused;
 
-    private List<Coroutine> _coroutines = new();
+    private Factory<Explosion> _explosionFactory;
+    private Pool<Explosion> _explosionPool;
+
+    private VFXPlayer _VFXPlayer;
+    private SoundPlayer _soundPlayer;
 
     private float _highestCornerX;
     private float _highestCornerY;
@@ -35,7 +31,6 @@ public class Lifetime : MonoBehaviour, IPausable
     private float _lowestCornerY;
 
     public Session Session => _session;
-    public int PoolCount => _pool.Count;
 
     public event Action CatWasDestroyed;
     public event Action CatAttacked;
@@ -43,10 +38,12 @@ public class Lifetime : MonoBehaviour, IPausable
 
     private void Awake()
     {
-        _cat.InitConfig(_entityConfig);
-        _factory = new(_cat, _entityConfig);
-        _pool = new(_factory);
-        _session = new(_dataConfig, this);
+        _entityFactory = new(_entity, _scale, _lifeDelay);
+        _entityPool = new(_entityFactory);
+        _session = new(_gameConfig);
+
+        _explosionFactory = new(_explosion, _scale, _explosion.Sprite);
+        _explosionPool = new(_explosionFactory);
     }
 
     private void Update()
@@ -58,67 +55,32 @@ public class Lifetime : MonoBehaviour, IPausable
 
         if (_time >= _timeSinceSpawn)
         {
-            var obj = _pool.Get(_cat);
-            SetScale(obj, _scale);
-            obj.Scale = _scale;
-            SetPosition(obj, _spawnArea);
+            var entity = _entityPool.Get(_entity);
+            SetPosition(entity, _spawnArea);
 
-            var b = StartCoroutine(Delay(obj, _lifeDelay));
-            obj.Delay = b;
-            _coroutines.Add(b);
+            entity
+                .OnHitted(entity =>
+                {
+                    _session.CatAttacked();
+                    _entityPool.Return(entity);
+                })
+                .OnDestroyed(entity =>
+                {
+                    _session.CatWasDestroyed();
+                    _entityPool.Return(entity);
+                });
 
             _time = 0;
         }
     }
 
-    public int[] UpdateData()
+    public void Init(VFXPlayer VFXPlayer, SoundPlayer soundPlayer)
     {
-        int[] ints = new int[] { _session.Health, _session.Score, _session.Money, _session.Destroyed, _pool.Count };
-        Updated?.Invoke();
-        return ints;
+        _VFXPlayer = VFXPlayer;
+        _soundPlayer = soundPlayer;
     }
 
-    private IEnumerator Delay(Entity entity, float lifeDelay)
-    {
-        yield return new WaitForSeconds(lifeDelay);
-
-        StartCoroutine(_entryPoint.VFXPlayer.Animate(entity, entity.IsDestroyed, true));
-        print("Started to returning to pool from itself");
-        StartCoroutine(ReturnEntity(entity, CatAttacked));
-    }
-
-    public void OnHitted(IHitable hitable)
-    {
-        var hitted = (Entity)hitable;
-        hitted.Hit();
-
-        StopCoroutine(hitted.Delay);
-
-        StartCoroutine(_entryPoint.VFXPlayer.Animate(hitted, hitted.IsDestroyed, true));
-        print("Started to returning to pool from clicking");
-        StartCoroutine(ReturnEntity(hitted, CatWasDestroyed));
-    }
-
-    public IEnumerator ReturnEntity(Entity entity, Action action)
-    {
-        yield return new WaitUntil(() => entity.IsAnimationEnded == true);
-        _pool.Return(entity);
-        action?.Invoke();
-    }
-
-    public void SetScale(Entity entity, float scale)
-    {
-        var width = entity.EntityConfig.StartSprite.rect.width;
-        var height = entity.EntityConfig.StartSprite.rect.height;
-        var pixels = entity.EntityConfig.StartSprite.pixelsPerUnit;
-
-        entity.gameObject.transform.localScale = new Vector2((scale * pixels) / width, (scale * pixels) / height);
-
-        entity.BoxCollider2D.size = new Vector2(width / pixels, height / pixels);
-
-    }
-
-    public void SetPosition(Entity entity, RectTransform spawnArea)
+    private void SetPosition(Entity entity, RectTransform spawnArea)
     {
         var menuCorners = new Vector3[4];
         spawnArea.GetWorldCorners(menuCorners);
@@ -137,8 +99,6 @@ public class Lifetime : MonoBehaviour, IPausable
             }
         }
 
-        System.Random random = new();
-        var hor = random.NextDouble();
         var horizontal = UnityEngine.Random.Range(_lowestCornerX, _highestCornerX);
         var vertical = UnityEngine.Random.Range(_lowestCornerY, _highestCornerY);
 
@@ -153,15 +113,5 @@ public class Lifetime : MonoBehaviour, IPausable
     public void Unpause()
     {
         _isPaused = false;
-    }
-
-    private void OnEnable()
-    {
-        _entryPoint.ClickHandler.Hitted += OnHitted;
-    }
-
-    private void OnDisable()
-    {
-        _entryPoint.ClickHandler.Hitted -= OnHitted;
     }
 }

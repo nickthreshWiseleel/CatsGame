@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "DataConfig", menuName = "Configs/DataConfig", order = 1)]
-public class DataConfig : ScriptableObject
+public class GameConfig : ScriptableObject
 {
     public int StartHealth = 155;
     public int StartScore = 0;
