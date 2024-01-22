@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 9052877794920570613}
   - component: {fileID: 8572613071354517804}
   - component: {fileID: 6520329486965463181}
-  - component: {fileID: 9106804905967680408}
   - component: {fileID: 9059496824694411813}
+  - component: {fileID: 2891043061279733965}
   m_Layer: 0
-  m_Name: Square 1
+  m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 928948012276862110}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.867038, y: 3.1570902, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.27027026, y: 0.27027026, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -229,18 +229,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.7, y: 3.7}
   m_EdgeRadius: 0
---- !u!114 &9106804905967680408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 928948012276862110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5487e84acde5e06478805eea02973ae8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &9059496824694411813
 Animator:
   serializedVersion: 5
@@ -252,7 +240,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: ff518175a6569be4d88e41a076d69c0c, type: 2}
-  m_CullingMode: 2
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -262,3 +250,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2891043061279733965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928948012276862110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0edb482d968eaa4194bce274f23ff73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

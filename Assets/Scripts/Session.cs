@@ -1,4 +1,6 @@
-﻿public class Session
+﻿using System;
+
+public class Session
 {
     private int _health, _score, _money, _destroyed;
     private readonly GameConfig _dataConfig;
@@ -8,6 +10,8 @@
     public int Score => _score;
     public int Money => _money;
     public int Destroyed => _destroyed;
+
+    public event Action Changed;
 
     public Session(GameConfig config)
     {
@@ -26,6 +30,8 @@
         }
 
         ChangeData(ref _health, _dataConfig.HealthDecrement);
+
+        Changed?.Invoke();
     }
 
     public void CatWasDestroyed()
@@ -33,6 +39,8 @@
         ChangeData(ref _score, _dataConfig.ScoreIncrement);
         ChangeData(ref _money, _dataConfig.MoneyIncrement);
         ChangeData(ref _destroyed, _dataConfig.DestroyedIncrement);
+
+        Changed?.Invoke();
     }
 
     private void ChangeData(ref int parameter, int parameterValue)

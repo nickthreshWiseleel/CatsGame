@@ -1097,16 +1097,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
-  _dataConfig: {fileID: 11400000, guid: 259f2682a0783b3449b6eab9da6c9608, type: 2}
-  _cat: {fileID: 9106804905967680408, guid: a27ea0e745743c540bc2c32dd6712104, type: 3}
-  _entryPoint: {fileID: 1448706749}
-  _entityConfig: {fileID: 11400000, guid: 448ff7c69dea42c41b515fd84bdf54e0, type: 2}
-  _animationConfig: {fileID: 11400000, guid: 54a49ecfaf56c62448b72779d5a37a17, type: 2}
-  _spawnArea: {fileID: 1930103239}
+  _gameConfig: {fileID: 11400000, guid: 259f2682a0783b3449b6eab9da6c9608, type: 2}
+  _entity: {fileID: 7747778012477743008, guid: f72f3c7184961284cbdce61e1c766fc3, type: 3}
+  _explosion: {fileID: 2891043061279733965, guid: 062fe66adc2b847459092ba5392c0964, type: 3}
+  _spawnerArea: {fileID: 1930103239}
+  _UI: {fileID: 2078416379}
   _timeSinceSpawn: 1
   _scale: 1
   _lifeDelay: 3
-  _animationDelay: 0.5
 --- !u!4 &885499821
 Transform:
   m_ObjectHideFlags: 0
@@ -1152,6 +1150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _clickHandler: {fileID: 725977861}
+  _lifetime: {fileID: 885499820}
 --- !u!4 &1448706750
 Transform:
   m_ObjectHideFlags: 0
@@ -1833,12 +1832,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c3cf2424dcff34faaddade903b5b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifetime: {fileID: 885499820}
   _healthValue: {fileID: 1778776839}
   _scoreValue: {fileID: 1635158114}
   _moneyValue: {fileID: 2078801650}
   _destroyedValue: {fileID: 511547970}
-  _poolCount: {fileID: 8222551}
 --- !u!1 &2078801648
 GameObject:
   m_ObjectHideFlags: 0
