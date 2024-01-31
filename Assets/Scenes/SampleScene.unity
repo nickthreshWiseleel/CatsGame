@@ -1620,11 +1620,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lifetime: {fileID: 885499820}
-  _gameConfig: {fileID: 11400000, guid: 259f2682a0783b3449b6eab9da6c9608, type: 2}
   _entity: {fileID: 7747778012477743008, guid: f72f3c7184961284cbdce61e1c766fc3, type: 3}
-  _explosion: {fileID: 2891043061279733965, guid: 062fe66adc2b847459092ba5392c0964, type: 3}
-  _explosionEntitySound: {fileID: -5032056417399885600, guid: 399821a7286f351498cc4abe8d399dd8, type: 3}
-  _clickEntitySound: {fileID: -5032056417399885600, guid: c6b40c1dafbdbea4992e57ceb07fc2bd, type: 3}
+  _gameConfig: {fileID: 11400000, guid: 259f2682a0783b3449b6eab9da6c9608, type: 2}
+  _explosionSounds: {fileID: 11400000, guid: caf56006e90791b4c80532f748ef8752, type: 2}
+  _clickSounds: {fileID: 11400000, guid: 3f0069ffe25f35e498617512a9ead7a3, type: 2}
+  _animationPrefab: {fileID: 2891043061279733965, guid: 062fe66adc2b847459092ba5392c0964, type: 3}
+  _soundPrefab: {fileID: -5032056417399885600, guid: c6b40c1dafbdbea4992e57ceb07fc2bd, type: 3}
   _spawnArea: {fileID: 1930103239}
   _spawnDelay: 1
   _lifeDelay: 3
@@ -2079,7 +2080,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -499.99994, y: 197}
+  m_AnchoredPosition: {x: -500.00006, y: 197}
   m_SizeDelta: {x: -1044, y: -542}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1638998715
@@ -2533,7 +2534,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -2579,7 +2580,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c3cf2424dcff34faaddade903b5b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifetime: {fileID: 0}
   _healthValue: {fileID: 1778776839}
   _scoreValue: {fileID: 1635158114}
   _moneyValue: {fileID: 2078801650}
