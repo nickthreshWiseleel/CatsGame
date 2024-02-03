@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2313ce368bd8074498a6cf482beabda, type: 3}
-  m_Name: Default GameConfig
+  m_Name: GameConfig
   m_EditorClassIdentifier: 
   StartHealth: 15
   StartScore: 0

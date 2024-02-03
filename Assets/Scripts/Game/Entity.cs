@@ -1,16 +1,18 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using Pause;
+using Game.Infrastructure.Pause;
 
 namespace Game
 {
     public class Entity : MonoBehaviour, IHitable, IPausable
     {
         private Coroutine _delay;
+
+        private PauseToken _pauseToken;
+
         private Action<Entity> _destroyed;
         private Action<Entity> _hitted;
-        private PauseToken _pauseToken;
 
         public void Init(float lifeDelay)
         {
@@ -36,6 +38,16 @@ namespace Game
             _hitted?.Invoke(this);
         }
 
+        public void Pause()
+        {
+            _pauseToken?.Pause();
+        }
+
+        public void Unpause()
+        {
+            _pauseToken?.Unpause();
+        }
+
         private IEnumerator Delay(float lifeDelay)
         {
             _pauseToken = new();
@@ -43,17 +55,6 @@ namespace Game
             yield return new PausableWaitForSeconds(lifeDelay, ref _pauseToken);
 
             _destroyed?.Invoke(this);
-            _pauseToken.Dispose();
-        }
-
-        public void Pause()
-        {
-            _pauseToken.Pause();
-        }
-
-        public void Unpause()
-        {
-            _pauseToken.Unpause();
         }
     }
 }

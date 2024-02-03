@@ -1,9 +1,6 @@
-﻿using System;
-using UnityEngine;
-
-namespace Pause
+﻿namespace Game.Infrastructure.Pause
 {
-    public class PauseToken : IDisposable
+    public class PauseToken
     {
         private bool _isPaused;
 
@@ -17,10 +14,6 @@ namespace Pause
         public bool Unpause()
         {
             return _isPaused = false;
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

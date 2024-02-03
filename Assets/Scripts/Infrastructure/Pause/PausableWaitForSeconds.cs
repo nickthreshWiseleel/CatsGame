@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-namespace Pause
+namespace Game.Infrastructure.Pause
 {
     public class PausableWaitForSeconds : CustomYieldInstruction
     {
+        private readonly PauseToken _pauseToken;
         private float _seconds;
         private float _startTime;
         private float _cachedTime;
-        private readonly PauseToken _pauseToken;
 
         public PausableWaitForSeconds(float seconds, ref PauseToken pauseToken)
         {
@@ -20,7 +20,14 @@ namespace Pause
         {
             get
             {
-                CacheTime();
+                if (_pauseToken.IsPaused)
+                {
+                    _startTime = Time.time - _cachedTime;
+                }
+                else
+                {
+                    _cachedTime = Time.time - _startTime;
+                }
 
                 if (_pauseToken.IsPaused)
                 {
@@ -33,18 +40,6 @@ namespace Pause
                 }
 
                 return false;
-            }
-        }
-
-        public void CacheTime()
-        {
-            if(_pauseToken.IsPaused == false)
-            {
-                _cachedTime = Time.time - _startTime;
-            }
-            else
-            {
-                _startTime = Time.time - _cachedTime;
             }
         }
     }

@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using Pause;
+using Game.Infrastructure.Pause;
 
 namespace Game
 {
     [RequireComponent(typeof(AudioSource))]
-    public class EntitySound : MonoBehaviour, IPausable
+    public class ExplosionSFX : MonoBehaviour, IMedia<ExplosionSFX>, ICustomSFX<AudioClip>, IPausable
     {
         private AudioSource _audioSource;
-        private Action<EntitySound> _ended;
+
+        private Action<ExplosionSFX> _ended;
 
         private void Awake()
         {
@@ -26,7 +27,7 @@ namespace Game
             StartCoroutine(PlaySound());
         }
 
-        public EntitySound OnEffectEnded(Action<EntitySound> ended)
+        public ExplosionSFX OnEffectEnded(Action<ExplosionSFX> ended)
         {
             _ended = ended;
             return this;

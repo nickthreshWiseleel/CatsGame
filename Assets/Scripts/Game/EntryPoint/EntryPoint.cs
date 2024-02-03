@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Pause;
+using Game.Infrastructure.Pause;
 
 namespace Game
 {
@@ -15,7 +15,7 @@ namespace Game
         [SerializeField] private AudioConfig _clickSounds;
         
         [SerializeField] private ExplosionVFX _animationPrefab;
-        [SerializeField] private EntitySound _soundPrefab;
+        [SerializeField] private ExplosionSFX _soundPrefab;
 
         [SerializeField] private RectTransform _spawnArea;
 
@@ -34,17 +34,16 @@ namespace Game
             Session session = new(_gameConfig);
 
             GameRules gameRules = new(session, _gameConfig);
-            gameRules.Init();
 
             VFXPlayer<ExplosionVFX> VFXPlayer = new(_animationPrefab, pauseManager);
             VFXPlayer.Init();
 
-            SoundPlayer<EntitySound> audioPlayer = new(_soundPrefab, pauseManager);
+            SFXPlayer<ExplosionSFX> audioPlayer = new(_soundPrefab, pauseManager);
             audioPlayer.Init();
 
             _lifetime.Init(_entity, spawner, gameRules, pauseManager, VFXPlayer, audioPlayer, _clickSounds, _explosionSounds, _spawnDelay);
 
-            _UI.Init(session, gameRules, pauseManager);
+            _UI.Init(session, pauseManager);
         }
     }
 }

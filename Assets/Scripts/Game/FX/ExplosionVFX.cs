@@ -1,24 +1,20 @@
-﻿using System;
+using System;
 using UnityEngine;
-using Pause;
+using Game.Infrastructure.Pause;
 
 namespace Game
 {
     [RequireComponent(typeof(Animator))]
-    public class ExplosionVFX : MonoBehaviour, IPausable
+    public class ExplosionVFX : MonoBehaviour, IMedia<ExplosionVFX>, IPausable
     {
-        private Animator _animator;
         private readonly int _isDestroyed = Animator.StringToHash("isDestroyed");
+        private Animator _animator;
+
         private Action<ExplosionVFX> _ended;
 
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-        }
-
-        public void SetPlayEffect(RuntimeAnimatorController controller)
-        {
-            _animator.runtimeAnimatorController = controller;
         }
 
         public void Play()

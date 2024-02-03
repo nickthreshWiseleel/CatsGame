@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
-using Pause;
-using Infrastructure;
+using Game.Infrastructure;
+using Game.Infrastructure.Pause;
 
 namespace Game
 {
-    public class VFXPlayer<T> : MediaPlayer<T> where T : ExplosionVFX, IPausable
+    public class SFXPlayer<T> : MediaPlayer<T> where T : Component, IMedia<T>, ICustomSFX<AudioClip>, IPausable
     {
-        private readonly T _playable;
         private readonly PauseManager _pauseManager;
+
+        private readonly T _playable;
+
         private PrefabFactory<T> _factory;
         private Pool<T> _pool;
 
-        public VFXPlayer(T playable, PauseManager pauseManager) : base(playable, pauseManager)
+        public SFXPlayer(T playable, PauseManager pauseManager) : base(playable, pauseManager)
         {
             _playable = playable;
             _pauseManager = pauseManager;
@@ -23,22 +25,22 @@ namespace Game
             _pool = new(_factory);
         }
 
-        public override void PlayVFX(Vector2 position)
+        public void Play(AudioClip clip)
         {
             var playable = Get(_playable);
 
             playable.OnEffectEnded(playable =>
             {
-                Return((T)playable);
+                Return(playable);
             });
 
-            playable.transform.position = position;
+            playable.SetPlayEffect(clip);
             playable.Play();
         }
 
         public override T Get(T playable)
         {
-            playable = _pool.Get(playable);
+            playable = _pool.Get();
             _pauseManager.Add(playable);
             return playable;
         }

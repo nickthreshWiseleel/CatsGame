@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Infrastructure
+namespace Game.Infrastructure
 {
     public class PrefabFactory<T> : IFactory<T> where T : Component
     {
@@ -13,8 +13,7 @@ namespace Infrastructure
 
         public T Create()
         {
-            var created = Object.Instantiate(_prefab);
-            return created;
+            return Object.Instantiate(_prefab);
         }
     }
 }

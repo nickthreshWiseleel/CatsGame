@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6846249451453919392}
-  - component: {fileID: -5032056417399885600}
   - component: {fileID: 6878986746489209538}
+  - component: {fileID: 8424228283844267069}
   m_Layer: 0
-  m_Name: ExplosionSound
+  m_Name: ExplosionSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,18 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5032056417399885600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5615680404317205280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3130de66400da847a400aa0674e74fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &6878986746489209538
 AudioSource:
   m_ObjectHideFlags: 0
@@ -141,3 +129,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8424228283844267069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5615680404317205280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c9715182588fe48b75e85a3fbc090e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

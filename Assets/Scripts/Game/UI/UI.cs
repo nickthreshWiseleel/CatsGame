@@ -1,7 +1,8 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Pause;
+using UniRx;
+using Game.Infrastructure.Pause;
 
 namespace Game
 {
@@ -11,21 +12,29 @@ namespace Game
         [SerializeField] private TextMeshProUGUI _scoreValue;
         [SerializeField] private TextMeshProUGUI _moneyValue;
         [SerializeField] private TextMeshProUGUI _destroyedValue;
+
         [SerializeField] private Button _pauseButton;
         [SerializeField] private Button _unpauseButton;
-        [SerializeField] private Image _pauseMenu;
-        private IPauseProvider _pauseProvider;
-        private Session _session;
-        private GameRules _gameRules;
 
-        public void Init(Session session, GameRules gameRules, IPauseProvider pauseProvider)
+        [SerializeField] private Image _pauseMenu;
+
+        private IPauseProvider _pauseProvider;
+
+        private Session _session;
+
+        private CompositeDisposable _disposable = new();
+
+        public void Init(Session session, IPauseProvider pauseProvider)
         {
             _session = session;
-            _gameRules = gameRules;
             _pauseProvider = pauseProvider;
-            _gameRules.Attacked += ShowData;
-            _gameRules.Destroyed += ShowData;
+
             ShowData();
+
+            _session.Health.Subscribe(x => _healthValue.text = x.ToString()).AddTo(_disposable);
+            _session.Score.Subscribe(x => _scoreValue.text = x.ToString()).AddTo(_disposable);
+            _session.Money.Subscribe(x => _moneyValue.text = x.ToString()).AddTo(_disposable);
+            _session.Destroyed.Subscribe(x => _destroyedValue.text = x.ToString()).AddTo(_disposable);
         }
 
         public void ShowData()

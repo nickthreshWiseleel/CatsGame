@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
-using Pause;
-using Infrastructure;
+using Game.Infrastructure;
+using Game.Infrastructure.Pause;
 
 namespace Game
 {
     public abstract class MediaPlayer<T> where T : Component
     {
-        private readonly T _playable;
         private readonly PauseManager _pauseManager;
+
+        private readonly T _playable;
+
         private PrefabFactory<T> _factory;
         private Pool<T> _pool;
 
@@ -22,10 +24,6 @@ namespace Game
             _factory = new(_playable);
             _pool = new(_factory);
         }
-
-        public virtual void PlayVFX(Vector2 position) { }
-
-        public virtual void PlayAudio(AudioClip clip) { }
 
         public abstract T Get(T playable);
 

@@ -1,4 +1,4 @@
-﻿namespace Infrastructure
+﻿namespace Game.Infrastructure
 {
     public interface IFactory<T>
     {

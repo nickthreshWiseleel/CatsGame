@@ -1,26 +1,26 @@
 ﻿using UnityEngine;
-using Infrastructure;
+using Game.Infrastructure;
 
 namespace Game
 {
     public class Spawner
     {
-        private struct Coordinates
+        private struct Coordinates // of _spawnArea's corners
         {
-            public float _highestCornerX;
-            public float _highestCornerY;
-            public float _lowestCornerX;
-            public float _lowestCornerY;
+            public float RightTopX;
+            public float RightTopY;
+            public float LeftBottomX;
+            public float LeftBottomY;
         }
 
         private readonly Entity _entity;
+        private readonly RectTransform _spawnArea;
+        private readonly float _lifeDelay;
+
         private PrefabFactory<Entity> _factory;
         private Pool<Entity> _pool;
 
-        private readonly RectTransform _spawnArea;
         private Coordinates _coordinates;
-
-        private readonly float _lifeDelay;
 
         public Spawner(Entity entity, RectTransform spawnArea, float lifeDelay)
         {
@@ -34,11 +34,12 @@ namespace Game
             _factory = new(_entity);
             _pool = new(_factory);
             _coordinates = new();
+            GetCorners();
         }
 
         public Entity Spawn()
         {
-            var entity = _pool.Get(_entity);
+            var entity = _pool.Get();
             entity.Init(_lifeDelay);
             SetPosition(entity);
             return entity;
@@ -49,7 +50,7 @@ namespace Game
             _pool.Return(entity);
         }
 
-        private void SetPosition(Entity entity)
+        private void GetCorners()
         {
             var menuCorners = new Vector3[4];
             _spawnArea.GetWorldCorners(menuCorners);
@@ -57,19 +58,22 @@ namespace Game
             {
                 if (corner.x > 0 && corner.y > 0)
                 {
-                    _coordinates._highestCornerX = corner.x;
-                    _coordinates._highestCornerY = corner.y;
+                    _coordinates.RightTopX = corner.x;
+                    _coordinates.RightTopY = corner.y;
                 }
 
                 if (corner.x < 0 && corner.y < 0)
                 {
-                    _coordinates._lowestCornerX = corner.x;
-                    _coordinates._lowestCornerY = corner.y;
+                    _coordinates.LeftBottomX = corner.x;
+                    _coordinates.LeftBottomY = corner.y;
                 }
             }
+        }
 
-            var horizontal = Random.Range(_coordinates._lowestCornerX, _coordinates._highestCornerX);
-            var vertical = Random.Range(_coordinates._lowestCornerY, _coordinates._highestCornerY);
+        private void SetPosition(Entity entity)
+        {
+            var horizontal = Random.Range(_coordinates.LeftBottomX, _coordinates.RightTopX);
+            var vertical = Random.Range(_coordinates.LeftBottomY, _coordinates.RightTopY);
 
             entity.transform.position = new Vector2(horizontal, vertical);
         }

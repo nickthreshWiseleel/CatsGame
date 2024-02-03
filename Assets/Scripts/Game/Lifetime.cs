@@ -1,32 +1,35 @@
-﻿using System.Diagnostics;
-using UnityEngine;
-using Pause;
+﻿using UnityEngine;
+using Game.Infrastructure.Pause;
 
 namespace Game
 {
     public class Lifetime : MonoBehaviour, IPausable
     {
-        [Range(0f, 1f), SerializeField] private float _speed = 1f;
         private Entity _entity;
         private Spawner _spawner;
+
+        private GameRules _gameRules;
+
         private PauseManager _pauseManager;
+
         private VFXPlayer<ExplosionVFX> _VFXPlayer;
-        private SoundPlayer<EntitySound> _soundPlayer;
+        private SFXPlayer<ExplosionSFX> _SFXPlayer;
+
         private AudioConfig _explosionSounds;
         private AudioConfig _clickSounds;
+
         private float _spawnDelay;
 
         private float _time;
-        private bool _isPaused;
 
-        private GameRules _gameRules;
+        private bool _isPaused;
 
         public void Init(Entity entity,
             Spawner spawner,
             GameRules rules,
             PauseManager pauseManager,
             VFXPlayer<ExplosionVFX> VFXPlayer,
-            SoundPlayer<EntitySound> soundPlayer,
+            SFXPlayer<ExplosionSFX> SFXPlayer,
             AudioConfig clickSounds,
             AudioConfig explosionSounds,
             float spawnDelay)
@@ -34,19 +37,18 @@ namespace Game
             _entity = entity;
             _spawner = spawner;
             _gameRules = rules;
+            _pauseManager = pauseManager;
             _VFXPlayer = VFXPlayer;
-            _soundPlayer = soundPlayer;
+            _SFXPlayer = SFXPlayer;
             _clickSounds = clickSounds;
             _explosionSounds = explosionSounds;
             _spawnDelay = spawnDelay;
-            _pauseManager = pauseManager;
+
             _pauseManager.Add(this);
         }
 
         private void Update()
         {
-            Time.timeScale = _speed;
-
             if (_isPaused) return;
 
             _time += Time.deltaTime;
@@ -75,33 +77,32 @@ namespace Game
 
             _pauseManager.Add(entity);
 
-
             entity
                 .OnHitted(entity =>
                 {
                     _gameRules.CatIsDestroyed();
 
-                    _spawner.Return(entity);
-
-                    _VFXPlayer.PlayVFX(entity.transform.position);
-
-                    _soundPlayer.PlayAudio(_clickSounds.audioList[0]);
-
-                    _pauseManager.Remove(entity);
+                    Despawn(entity, _clickSounds.audioList[0]);
                 })
                 .OnDestroyed(entity =>
                 {
                     _gameRules.CatAttacks();
 
-                    _spawner.Return(entity);
-
-                    _VFXPlayer.PlayVFX(entity.transform.position);
-
                     var audio = _explosionSounds.audioList[Random.Range(0, _explosionSounds.audioList.Count)];
-                    _soundPlayer.PlayAudio(audio);
 
-                    _pauseManager.Remove(entity);
+                    Despawn(entity, audio);
                 });
+        }
+
+        private void Despawn(Entity entity, AudioClip soundClip)
+        {
+            _spawner.Return(entity);
+
+            _VFXPlayer.Play(entity.transform.position);
+
+            _SFXPlayer.Play(soundClip);
+
+            _pauseManager.Remove(entity);
         }
     }
 }

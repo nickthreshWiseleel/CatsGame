@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Pause
+namespace Game.Infrastructure.Pause
 {
     public class PauseManager : IPauseProvider
     {
