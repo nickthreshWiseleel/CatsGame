@@ -9,8 +9,6 @@ namespace Game.Infrastructure
         private readonly List<T> _list = new();
         private readonly IFactory<T> _factory;
 
-        public int Count => _list.Count;
-
         public Pool(IFactory<T> factory)
         {
             _factory = factory;
@@ -27,7 +25,7 @@ namespace Game.Infrastructure
                 SetActivity(element, false);
             }
 
-            element = _list.LastOrDefault();
+            element = _list.Last();
             _list.Remove(element);
             SetActivity(element, true);
             return element;

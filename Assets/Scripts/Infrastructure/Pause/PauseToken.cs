@@ -6,14 +6,14 @@
 
         public bool IsPaused => _isPaused;
 
-        public bool Pause()
+        public void Pause()
         {
-            return _isPaused = true;
+            _isPaused = true;
         }
 
-        public bool Unpause()
+        public void Unpause() // remove
         {
-            return _isPaused = false;
+            _isPaused = false;
         }
     }
 }

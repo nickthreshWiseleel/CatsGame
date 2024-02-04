@@ -14,8 +14,8 @@ namespace Game
         [SerializeField] private AudioConfig _explosionSounds;
         [SerializeField] private AudioConfig _clickSounds;
         
-        [SerializeField] private ExplosionVFX _animationPrefab;
-        [SerializeField] private ExplosionSFX _soundPrefab;
+        [SerializeField] private VFX _animationPrefab;
+        [SerializeField] private SFX _soundPrefab;
 
         [SerializeField] private RectTransform _spawnArea;
 
@@ -35,10 +35,10 @@ namespace Game
 
             GameRules gameRules = new(session, _gameConfig);
 
-            VFXPlayer<ExplosionVFX> VFXPlayer = new(_animationPrefab, pauseManager);
+            VFXPlayer<VFX> VFXPlayer = new(_animationPrefab, pauseManager);
             VFXPlayer.Init();
 
-            SFXPlayer<ExplosionSFX> audioPlayer = new(_soundPrefab, pauseManager);
+            SFXPlayer<SFX> audioPlayer = new(_soundPrefab, pauseManager);
             audioPlayer.Init();
 
             _lifetime.Init(_entity, spawner, gameRules, pauseManager, VFXPlayer, audioPlayer, _clickSounds, _explosionSounds, _spawnDelay);

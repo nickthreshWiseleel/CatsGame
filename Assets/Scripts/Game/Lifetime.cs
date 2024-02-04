@@ -12,8 +12,8 @@ namespace Game
 
         private PauseManager _pauseManager;
 
-        private VFXPlayer<ExplosionVFX> _VFXPlayer;
-        private SFXPlayer<ExplosionSFX> _SFXPlayer;
+        private VFXPlayer<VFX> _VFXPlayer;
+        private SFXPlayer<SFX> _SFXPlayer;
 
         private AudioConfig _explosionSounds;
         private AudioConfig _clickSounds;
@@ -24,12 +24,13 @@ namespace Game
 
         private bool _isPaused;
 
-        public void Init(Entity entity,
+        public void Init(
+            Entity entity,
             Spawner spawner,
             GameRules rules,
             PauseManager pauseManager,
-            VFXPlayer<ExplosionVFX> VFXPlayer,
-            SFXPlayer<ExplosionSFX> SFXPlayer,
+            VFXPlayer<VFX> VFXPlayer,
+            SFXPlayer<SFX> SFXPlayer,
             AudioConfig clickSounds,
             AudioConfig explosionSounds,
             float spawnDelay)

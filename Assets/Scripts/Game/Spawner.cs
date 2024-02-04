@@ -5,12 +5,10 @@ namespace Game
 {
     public class Spawner
     {
-        private struct Coordinates // of _spawnArea's corners
+        private struct Corners
         {
-            public float RightTopX;
-            public float RightTopY;
-            public float LeftBottomX;
-            public float LeftBottomY;
+            public Vector3 RightTop;
+            public Vector3 LeftBottom;
         }
 
         private readonly Entity _entity;
@@ -20,7 +18,7 @@ namespace Game
         private PrefabFactory<Entity> _factory;
         private Pool<Entity> _pool;
 
-        private Coordinates _coordinates;
+        private Corners _corners;
 
         public Spawner(Entity entity, RectTransform spawnArea, float lifeDelay)
         {
@@ -33,14 +31,14 @@ namespace Game
         {
             _factory = new(_entity);
             _pool = new(_factory);
-            _coordinates = new();
-            GetCorners();
+            _corners = new();
         }
 
         public Entity Spawn()
         {
             var entity = _pool.Get();
             entity.Init(_lifeDelay);
+            GetCorners();
             SetPosition(entity);
             return entity;
         }
@@ -52,28 +50,28 @@ namespace Game
 
         private void GetCorners()
         {
-            var menuCorners = new Vector3[4];
-            _spawnArea.GetWorldCorners(menuCorners);
-            foreach (var corner in menuCorners)
+            var corners = new Vector3[4];
+            _spawnArea.GetWorldCorners(corners);
+            foreach (var corner in corners)
             {
                 if (corner.x > 0 && corner.y > 0)
                 {
-                    _coordinates.RightTopX = corner.x;
-                    _coordinates.RightTopY = corner.y;
+                    _corners.RightTop.x = corner.x;
+                    _corners.RightTop.y = corner.y;
                 }
 
                 if (corner.x < 0 && corner.y < 0)
                 {
-                    _coordinates.LeftBottomX = corner.x;
-                    _coordinates.LeftBottomY = corner.y;
+                    _corners.LeftBottom.x = corner.x;
+                    _corners.LeftBottom.y = corner.y;
                 }
             }
         }
 
         private void SetPosition(Entity entity)
         {
-            var horizontal = Random.Range(_coordinates.LeftBottomX, _coordinates.RightTopX);
-            var vertical = Random.Range(_coordinates.LeftBottomY, _coordinates.RightTopY);
+            var horizontal = Random.Range(_corners.LeftBottom.x, _corners.RightTop.x);
+            var vertical = Random.Range(_corners.LeftBottom.y, _corners.RightTop.y);
 
             entity.transform.position = new Vector2(horizontal, vertical);
         }

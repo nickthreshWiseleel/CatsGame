@@ -29,20 +29,10 @@ namespace Game
             _session = session;
             _pauseProvider = pauseProvider;
 
-            ShowData();
-
             _session.Health.Subscribe(x => _healthValue.text = x.ToString()).AddTo(_disposable);
             _session.Score.Subscribe(x => _scoreValue.text = x.ToString()).AddTo(_disposable);
             _session.Money.Subscribe(x => _moneyValue.text = x.ToString()).AddTo(_disposable);
             _session.Destroyed.Subscribe(x => _destroyedValue.text = x.ToString()).AddTo(_disposable);
-        }
-
-        public void ShowData()
-        {
-            _healthValue.text = _session.Health.Value.ToString();
-            _scoreValue.text = _session.Score.Value.ToString();
-            _moneyValue.text = _session.Money.Value.ToString();
-            _destroyedValue.text = _session.Destroyed.Value.ToString();
         }
 
         public void PauseButton()

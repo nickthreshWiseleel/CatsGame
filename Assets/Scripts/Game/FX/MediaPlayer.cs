@@ -1,17 +1,16 @@
-﻿using UnityEngine;
-using Game.Infrastructure;
+﻿using Game.Infrastructure;
 using Game.Infrastructure.Pause;
 
 namespace Game
 {
-    public abstract class MediaPlayer<T> where T : Component
+    public abstract class MediaPlayer<T> where T : MediaFX
     {
-        private readonly PauseManager _pauseManager;
+        protected readonly PauseManager _pauseManager;
 
-        private readonly T _playable;
+        protected readonly T _playable;
 
-        private PrefabFactory<T> _factory;
-        private Pool<T> _pool;
+        protected PrefabFactory<T> _factory;
+        protected Pool<T> _pool;
 
         public MediaPlayer(T playable, PauseManager pauseManager)
         {

@@ -1,35 +1,19 @@
 ﻿using UnityEngine;
-using Game.Infrastructure;
 using Game.Infrastructure.Pause;
 
 namespace Game
 {
-    public class SFXPlayer<T> : MediaPlayer<T> where T : Component, IMedia<T>, ICustomSFX<AudioClip>, IPausable
+    public class SFXPlayer<T> : MediaPlayer<T> where T : SFX
     {
-        private readonly PauseManager _pauseManager;
-
-        private readonly T _playable;
-
-        private PrefabFactory<T> _factory;
-        private Pool<T> _pool;
-
         public SFXPlayer(T playable, PauseManager pauseManager) : base(playable, pauseManager)
         {
-            _playable = playable;
-            _pauseManager = pauseManager;
-        }
-
-        public override void Init()
-        {
-            _factory = new(_playable);
-            _pool = new(_factory);
         }
 
         public void Play(AudioClip clip)
         {
             var playable = Get(_playable);
 
-            playable.OnEffectEnded(playable =>
+            playable.OnEffectEnded(_ =>
             {
                 Return(playable);
             });

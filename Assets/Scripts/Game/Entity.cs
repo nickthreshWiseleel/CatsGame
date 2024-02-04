@@ -52,7 +52,7 @@ namespace Game
         {
             _pauseToken = new();
 
-            yield return new PausableWaitForSeconds(lifeDelay, ref _pauseToken);
+            yield return new PausableWaitForSeconds(lifeDelay, _pauseToken);
 
             _destroyed?.Invoke(this);
         }

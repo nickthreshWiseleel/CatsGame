@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using Game.Infrastructure.Pause;
 
 namespace Game
 {
     [RequireComponent(typeof(AudioSource))]
-    public class ExplosionSFX : MonoBehaviour, IMedia<ExplosionSFX>, ICustomSFX<AudioClip>, IPausable
+    public class SFX : MediaFX
     {
         private AudioSource _audioSource;
 
-        private Action<ExplosionSFX> _ended;
+        private Action<SFX> _ended;
 
         private void Awake()
         {
@@ -22,12 +21,12 @@ namespace Game
             _audioSource.clip = clip;
         }
 
-        public void Play()
+        public override void Play()
         {
             StartCoroutine(PlaySound());
         }
 
-        public ExplosionSFX OnEffectEnded(Action<ExplosionSFX> ended)
+        public override MediaFX OnEffectEnded(Action<MediaFX> ended)
         {
             _ended = ended;
             return this;
@@ -42,12 +41,12 @@ namespace Game
             _ended?.Invoke(this);
         }
 
-        public void Pause()
+        public override void Pause()
         {
             _audioSource.Pause();
         }
 
-        public void Unpause()
+        public override void Unpause()
         {
             _audioSource.UnPause();
         }

@@ -9,7 +9,7 @@ namespace Game.Infrastructure.Pause
         private float _startTime;
         private float _cachedTime;
 
-        public PausableWaitForSeconds(float seconds, ref PauseToken pauseToken)
+        public PausableWaitForSeconds(float seconds, PauseToken pauseToken)
         {
             _startTime = Time.time;
             _seconds = seconds;
@@ -23,15 +23,11 @@ namespace Game.Infrastructure.Pause
                 if (_pauseToken.IsPaused)
                 {
                     _startTime = Time.time - _cachedTime;
+                    return true;
                 }
                 else
                 {
                     _cachedTime = Time.time - _startTime;
-                }
-
-                if (_pauseToken.IsPaused)
-                {
-                    return true;
                 }
 
                 if (Time.time - _startTime < _seconds)
