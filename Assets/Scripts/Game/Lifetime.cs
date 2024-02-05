@@ -5,7 +5,6 @@ namespace Game
 {
     public class Lifetime : MonoBehaviour, IPausable
     {
-        private Entity _entity;
         private Spawner _spawner;
 
         private GameRules _gameRules;
@@ -25,7 +24,6 @@ namespace Game
         private bool _isPaused;
 
         public void Init(
-            Entity entity,
             Spawner spawner,
             GameRules rules,
             PauseManager pauseManager,
@@ -35,7 +33,6 @@ namespace Game
             AudioConfig explosionSounds,
             float spawnDelay)
         {
-            _entity = entity;
             _spawner = spawner;
             _gameRules = rules;
             _pauseManager = pauseManager;
@@ -56,7 +53,7 @@ namespace Game
 
             if (_time >= _spawnDelay)
             {
-                Spawn(_entity);
+                Spawn();
 
                 _time = 0;
             }
@@ -72,25 +69,22 @@ namespace Game
             _isPaused = false;
         }
 
-        private void Spawn(Entity entity)
+        private void Spawn()
         {
-            entity = _spawner.Spawn();
+            Entity entity = _spawner.Spawn();
 
             _pauseManager.Add(entity);
 
             entity
-                .OnHitted(entity =>
+                .OnHitted((entity, rewards) =>
                 {
-                    _gameRules.CatIsDestroyed();
-
-                    Despawn(entity, _clickSounds.audioList[0]);
+                    _gameRules.ApplyRewards(rewards);
+                    Despawn(entity, _clickSounds.Audios[0]);
                 })
-                .OnDestroyed(entity =>
+                .OnDestroyed((entity, rewards) =>
                 {
-                    _gameRules.CatAttacks();
-
-                    var audio = _explosionSounds.audioList[Random.Range(0, _explosionSounds.audioList.Count)];
-
+                    _gameRules.ApplyRewards(rewards);
+                    var audio = _explosionSounds.Audios[Random.Range(0, _explosionSounds.Audios.Count)];
                     Despawn(entity, audio);
                 });
         }
@@ -98,11 +92,8 @@ namespace Game
         private void Despawn(Entity entity, AudioClip soundClip)
         {
             _spawner.Return(entity);
-
             _VFXPlayer.Play(entity.transform.position);
-
             _SFXPlayer.Play(soundClip);
-
             _pauseManager.Remove(entity);
         }
     }

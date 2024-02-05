@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Game
@@ -8,8 +7,6 @@ namespace Game
     {
         private readonly int _isDestroyed = Animator.StringToHash("isDestroyed");
         private Animator _animator;
-
-        private Action<VFX> _ended;
 
         private void Awake()
         {
@@ -24,12 +21,6 @@ namespace Game
         private void EffectEnded() //animation event
         {
             _ended?.Invoke(this);
-        }
-
-        public override MediaFX OnEffectEnded(Action<MediaFX> ended)
-        {
-            _ended = ended;
-            return this;
         }
 
         public override void Pause()

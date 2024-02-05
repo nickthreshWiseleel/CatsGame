@@ -5,7 +5,7 @@ namespace Game.Infrastructure.Pause
     public class PausableWaitForSeconds : CustomYieldInstruction
     {
         private readonly PauseToken _pauseToken;
-        private float _seconds;
+        private readonly float _seconds;
         private float _startTime;
         private float _cachedTime;
 

@@ -22,17 +22,15 @@ namespace Game
 
         private Session _session;
 
-        private CompositeDisposable _disposable = new();
-
         public void Init(Session session, IPauseProvider pauseProvider)
         {
             _session = session;
             _pauseProvider = pauseProvider;
 
-            _session.Health.Subscribe(x => _healthValue.text = x.ToString()).AddTo(_disposable);
-            _session.Score.Subscribe(x => _scoreValue.text = x.ToString()).AddTo(_disposable);
-            _session.Money.Subscribe(x => _moneyValue.text = x.ToString()).AddTo(_disposable);
-            _session.Destroyed.Subscribe(x => _destroyedValue.text = x.ToString()).AddTo(_disposable);
+            _session.Health.Subscribe(x => _healthValue.text = x.ToString()).AddTo(this);
+            _session.Score.Subscribe(x => _scoreValue.text = x.ToString()).AddTo(this);
+            _session.Money.Subscribe(x => _moneyValue.text = x.ToString()).AddTo(this);
+            _session.Destroyed.Subscribe(x => _destroyedValue.text = x.ToString()).AddTo(this);
         }
 
         public void PauseButton()

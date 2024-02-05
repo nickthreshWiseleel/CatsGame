@@ -6,7 +6,13 @@ namespace Game
 {
     public abstract class MediaFX : MonoBehaviour, IPausable
     {
-        public abstract MediaFX OnEffectEnded(Action<MediaFX> ended);
+        protected Action<MediaFX> _ended;
+
+        public virtual MediaFX OnEffectEnded(Action<MediaFX> ended)
+        {
+            _ended = ended;
+            return this;
+        }
 
         public abstract void Play();
 

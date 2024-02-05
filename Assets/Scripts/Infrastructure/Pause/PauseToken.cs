@@ -11,7 +11,7 @@
             _isPaused = true;
         }
 
-        public void Unpause() // remove
+        public void Unpause()
         {
             _isPaused = false;
         }

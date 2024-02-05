@@ -19,6 +19,8 @@ namespace Game
 
         [SerializeField] private RectTransform _spawnArea;
 
+        [SerializeField] private LoseScreen _loseScreen;
+
         [SerializeField] private float _spawnDelay;
         [SerializeField] private float _lifeDelay;
         
@@ -28,12 +30,12 @@ namespace Game
         {
             PauseManager pauseManager = new();
 
-            Spawner spawner = new(_entity, _spawnArea, _lifeDelay);
+            Spawner spawner = new(_entity, _spawnArea, _gameConfig, _lifeDelay);
             spawner.Init();
 
             Session session = new(_gameConfig);
 
-            GameRules gameRules = new(session, _gameConfig);
+            GameRules gameRules = new(session, pauseManager, _loseScreen);
 
             VFXPlayer<VFX> VFXPlayer = new(_animationPrefab, pauseManager);
             VFXPlayer.Init();
@@ -41,7 +43,7 @@ namespace Game
             SFXPlayer<SFX> audioPlayer = new(_soundPrefab, pauseManager);
             audioPlayer.Init();
 
-            _lifetime.Init(_entity, spawner, gameRules, pauseManager, VFXPlayer, audioPlayer, _clickSounds, _explosionSounds, _spawnDelay);
+            _lifetime.Init(spawner, gameRules, pauseManager, VFXPlayer, audioPlayer, _clickSounds, _explosionSounds, _spawnDelay);
 
             _UI.Init(session, pauseManager);
         }

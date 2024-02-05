@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab1d2d51628b6c48abfd29507185a05, type: 3}
   m_Name: ExplosionSounds
   m_EditorClassIdentifier: 
-  audioList:
+  Audios:
   - {fileID: 8300000, guid: f44a3bb54cd664445a984fce7850d65c, type: 3}
   - {fileID: 8300000, guid: 610a181f9bbf08541a0c815fb010a594, type: 3}
   - {fileID: 8300000, guid: 0b856990994c9fe4bb6ad5c925e70b1c, type: 3}

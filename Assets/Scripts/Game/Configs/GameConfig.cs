@@ -2,7 +2,7 @@
 
 namespace Game
 {
-    [CreateAssetMenu(fileName = "DataConfig", menuName = "Configs/DataConfig", order = 1)]
+    [CreateAssetMenu(fileName = "GameConfig", menuName = "Configs/GameConfig", order = 1)]
     public class GameConfig : ScriptableObject
     {
         public int StartHealth = 155;

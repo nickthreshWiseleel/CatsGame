@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Game
@@ -8,8 +7,6 @@ namespace Game
     public class SFX : MediaFX
     {
         private AudioSource _audioSource;
-
-        private Action<SFX> _ended;
 
         private void Awake()
         {
@@ -24,12 +21,6 @@ namespace Game
         public override void Play()
         {
             StartCoroutine(PlaySound());
-        }
-
-        public override MediaFX OnEffectEnded(Action<MediaFX> ended)
-        {
-            _ended = ended;
-            return this;
         }
 
         private IEnumerator PlaySound()

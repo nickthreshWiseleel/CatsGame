@@ -13,10 +13,7 @@ namespace Game
         {
             var playable = Get(_playable);
 
-            playable.OnEffectEnded(_ =>
-            {
-                Return(playable);
-            });
+            playable.OnEffectEnded(_ => Return(playable));
 
             playable.SetPlayEffect(clip);
             playable.Play();

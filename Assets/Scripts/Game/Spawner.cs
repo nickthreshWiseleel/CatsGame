@@ -13,6 +13,7 @@ namespace Game
 
         private readonly Entity _entity;
         private readonly RectTransform _spawnArea;
+        private readonly GameConfig _gameConfig;
         private readonly float _lifeDelay;
 
         private PrefabFactory<Entity> _factory;
@@ -20,11 +21,12 @@ namespace Game
 
         private Corners _corners;
 
-        public Spawner(Entity entity, RectTransform spawnArea, float lifeDelay)
+        public Spawner(Entity entity, RectTransform spawnArea, GameConfig gameConfig, float lifeDelay)
         {
             _entity = entity;
             _spawnArea = spawnArea;
             _lifeDelay = lifeDelay;
+            _gameConfig = gameConfig;
         }
 
         public void Init()
@@ -37,7 +39,7 @@ namespace Game
         public Entity Spawn()
         {
             var entity = _pool.Get();
-            entity.Init(_lifeDelay);
+            entity.Init(_lifeDelay, _gameConfig);
             GetCorners();
             SetPosition(entity);
             return entity;

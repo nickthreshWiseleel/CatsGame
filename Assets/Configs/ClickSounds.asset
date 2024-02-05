@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab1d2d51628b6c48abfd29507185a05, type: 3}
   m_Name: ClickSounds
   m_EditorClassIdentifier: 
-  audioList:
+  Audios:
   - {fileID: 8300000, guid: c7e707018c4b0cc4fbeafad30c46f020, type: 3}
